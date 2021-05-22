@@ -33,9 +33,9 @@ npm run start
 npm run test
 ```
 
-<!-- ## Documentation
+## Database Model
 
-![Documentation](./docs_img_updated.png) -->
+![Database Model](./db_model.png)
 
 ## Author
 
