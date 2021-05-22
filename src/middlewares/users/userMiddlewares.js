@@ -55,7 +55,10 @@ const _optionalMailExists = check("email")
   });
 
 //validations for the /users GET endpoint
-const getAllRequestValidations = [validJWT, commonValidationResult];
+const getAllRequestValidations = [
+  // validJWT,
+  commonValidationResult,
+];
 
 //validations for the /users/:id GET endpoint
 const getByIdRequestValidations = [
