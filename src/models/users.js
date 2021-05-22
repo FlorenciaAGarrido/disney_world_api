@@ -6,6 +6,7 @@ const User = sequelize.define("Users", {
   username: {
     type: DataTypes.STRING,
     allowNull: false,
+    unique: true,
   },
   password: {
     type: DataTypes.STRING,
@@ -18,6 +19,7 @@ const User = sequelize.define("Users", {
   email: {
     type: DataTypes.STRING,
     allowNull: false,
+    unique: true,
   },
   enable: {
     type: DataTypes.BOOLEAN,
