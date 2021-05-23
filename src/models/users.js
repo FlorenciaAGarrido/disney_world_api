@@ -1,5 +1,6 @@
 const { DataTypes } = require("sequelize");
 const { sequelize } = require("../loaders/sequelize/sequelize");
+const { USER_ROLE, ADMIN_ROLE } = require("../constants/constants");
 
 const User = sequelize.define("Users", {
   // Model attributes are defined here
@@ -20,6 +21,10 @@ const User = sequelize.define("Users", {
     type: DataTypes.BOOLEAN,
     allowNull: false,
     defaultValue: true,
+  },
+  role: {
+    type: DataTypes.ENUM({ values: [USER_ROLE, ADMIN_ROLE] }),
+    defaultValue: USER_ROLE,
   },
 });
 
