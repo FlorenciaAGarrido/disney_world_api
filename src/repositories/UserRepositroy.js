@@ -11,27 +11,22 @@ class UserRepository {
   //   return await User.paginate(filter, options);
   // }
 
-  // async findByID(id) {
-  //   return await User.findById(id);
-  // }
+  findByID = async (id) => await User.findByPk(id);
 
-  // async findByEmail(email) {
-  //   return await User.findOne({ email: email });
-  // }
+  //!HACER QUERY
+  findByEmail = async (email) => await User.findOne({ email });
 
-  // async save(user) {
-  //   //encrypt pass
-  //   user.password = await bcrypt.hash(user.password, 10);
-  //   return await User.create(user);
-  // }
+  save = async (user) => {
+    //encrypt pass
+    user.password = await bcrypt.hash(user.password, 10);
+    return await User.create(user);
+  };
 
-  // async update(id, user) {
-  //   return await User.findByIdAndUpdate(id, user, { new: true });
-  // }
+  update = async (id, user) =>
+    //change every user in the db whose id matches the id passed as a param to the user passed as a param
+    await User.update(user, { user }, { where: { id } });
 
-  // async remove(id) {
-  //   return await User.findByIdAndRemove(id);
-  // }
+  remove = async (id) => await User.destroy({ where: id });
 }
 
 module.exports = UserRepository;

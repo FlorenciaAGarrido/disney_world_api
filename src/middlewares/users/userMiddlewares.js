@@ -63,7 +63,7 @@ const getAllRequestValidations = [
 //validations for the /users/:id GET endpoint
 const getByIdRequestValidations = [
   commonValidationResult,
-  validJWT,
+  // validJWT,
   _idRequired,
   _isMongoID,
   _idExists,
@@ -72,7 +72,7 @@ const getByIdRequestValidations = [
 //validations for the /users POST endpoint
 const postRequestValidations = [
   commonValidationResult,
-  validJWT,
+  // validJWT,
   _nameRequired,
   _lastNameRequired,
   _emailRequired,
@@ -81,13 +81,13 @@ const postRequestValidations = [
   _passRequired,
   _isRoleValid,
   _isBirthDateValid,
-  hasRole(ADMIN_ROLE),
+  // hasRole(ADMIN_ROLE),
 ];
 
 //validations for the /users/:id PUT endpoint
 const putRequestValidations = [
   commonValidationResult,
-  validJWT,
+  // validJWT,
   _idRequired,
   _isMongoID,
   _idExists,
@@ -95,17 +95,17 @@ const putRequestValidations = [
   _optionalMailExists,
   _isBirthDateValid,
   _isRoleValid,
-  hasRole(ADMIN_ROLE),
+  // hasRole(ADMIN_ROLE),
 ];
 
 //validations for the /users/:id DELETE endpoint
 const deleteRequestValidations = [
   commonValidationResult,
-  validJWT,
+  // validJWT,
   _idRequired,
   _isMongoID,
   _idExists,
-  hasRole(ADMIN_ROLE),
+  // hasRole(ADMIN_ROLE),
 ];
 
 module.exports = {
