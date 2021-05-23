@@ -13,8 +13,7 @@ class UserRepository {
 
   findByID = async (id) => await User.findByPk(id);
 
-  //!HACER QUERY
-  findByEmail = async (email) => await User.findOne({ email });
+  findByEmail = async (email) => await User.findOne({ where: { email } });
 
   save = async (user) => {
     //encrypt pass
