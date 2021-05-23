@@ -48,6 +48,14 @@ class AuthServices {
     }
   }
 
+  async register(email, password) {
+    //create user object with the params passed
+    const user = { email, password };
+    //persist the user to the db
+    await this.userServices.create(user);
+    return "User registered correctly.";
+  }
+
   async isTokenValid(token) {
     try {
       //check token is passed as a param

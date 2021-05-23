@@ -51,4 +51,17 @@ const postLoginRequestValidations = [
   _passRequired,
 ];
 
-module.exports = { postLoginRequestValidations, validJWT, hasRole };
+//validations for the /register POST endpoint
+const postRegisterRequestValidations = [
+  commonValidationResult,
+  _emailRequired,
+  _isEmailValid,
+  _passRequired,
+];
+
+module.exports = {
+  postLoginRequestValidations,
+  postRegisterRequestValidations,
+  validJWT,
+  hasRole,
+};
