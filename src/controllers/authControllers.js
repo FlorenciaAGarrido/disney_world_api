@@ -36,7 +36,9 @@ const register = async (req, res, next) => {
   const { email, password } = req.body;
   try {
     //parse data coming from body
-    res.json(new Sucess(await authServices.register(email, password)));
+    res
+      .status(201)
+      .json(new Sucess(await authServices.register(email, password)));
   } catch (error) {
     next(error);
   }
