@@ -40,7 +40,7 @@ class AuthServices {
         );
 
       //generate jwt with the user's id
-      const token = this._encrypt(user._id); //_id is the key mongo uses to assing and id automatically to every doc persisted
+      const token = this._encrypt(user.id);
 
       return { token, user: user.name, role: user.role };
     } catch (error) {
