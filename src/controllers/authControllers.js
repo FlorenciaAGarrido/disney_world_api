@@ -7,7 +7,7 @@ const Sucess = require("../handlers/SucessHandler");
  *
  * @param {express.Request} req
  * @param {express.Response} res
- * @param {express.next} next
+ * @param {express.NextFunction} next
  * @description post request to login with an existing user
  * @route /login
  */
@@ -26,7 +26,7 @@ const login = async (req, res, next) => {
  *
  * @param {express.Request} req
  * @param {express.Response} res
- * @param {express.next} next
+ * @param {express.NextFunction} next
  * @description post request to register a user
  * @route /register
  */
