@@ -6,7 +6,8 @@ const Character = sequelize.define("Character", {
   // Model attributes are defined here
   image: {
     type: DataTypes.STRING(250),
-    allowNull: false,
+    //true until the img is uploaded to a cloud service
+    allowNull: true,
   },
   name: {
     type: DataTypes.STRING(50),
