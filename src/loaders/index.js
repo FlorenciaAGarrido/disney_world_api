@@ -8,7 +8,8 @@ const initExpressServer = async () => {
     //init db connection
     await sequelize.authenticate();
     //model synchronization. {alter: true} checks what is the current state of the table in the database (which columns it has, what are their data types, etc), and then performs the necessary changes in the table to make it match the model.
-    sequelize.sync({ alter: true });
+    //!added the below line to stop the following error: UnhandledPromiseRejectionWarning: SequelizeDatabaseError: Too many keys specified; max 64 keys allowed. DO NOT PUSH THIS COMMENT
+    sequelize.sync({ force: false });
     console.log("Connection has been established successfully."); //replace with logger file
 
     //init express server

@@ -33,5 +33,5 @@ module.exports = Character;
 Character.belongsToMany(Movie, {
   through: "charactersMovies",
   as: "movies",
-  foreignKey: "movieID",
+  foreignKey: "characterID",
 });
