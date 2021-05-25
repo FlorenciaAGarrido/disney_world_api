@@ -74,24 +74,24 @@ const createCharacter = async (req, res, next) => {
  * @param {express.Request} req
  * @param {express.Response} res
  * @param {express.NextFunction} next
- * @description edit user by ID
- * @route PUT /api/v1/users/:id
+ * @description edit character by ID
+ * @route PUT /api/v1/characters/:id
  */
 
-// const updateUser = async (req, res, next) => {
-//   try {
-//     //params sent in the request i.e the user's id inthe route /:id
-//     const { id } = req.params;
-//     //data coming from the client
-//     let user = req.body;
-//     //edit transaction and persist it to the db
-//     const updatedUser = await userServices.edit(id, user);
-//     //parse response
-//     res.json(new Success(updatedUser));
-//   } catch (error) {
-//     next(error);
-//   }
-// };
+const updateCharacter = async (req, res, next) => {
+  try {
+    //params sent in the request i.e the user's id in the route /:id
+    const { id } = req.params;
+    //data coming from the client
+    let character = req.body;
+    //edit transaction and persist it to the db
+    const updatedCharacter = await characterServices.edit(id, character);
+    //parse response
+    res.json(new Success(updatedCharacter));
+  } catch (error) {
+    next(error);
+  }
+};
 
 // /**(
 //  *
@@ -119,6 +119,6 @@ module.exports = {
   //   getAllUsers,
   //   getUserByID,
   createCharacter,
-  //   updateUser,
+  updateCharacter,
   //   deleteUser,
 };

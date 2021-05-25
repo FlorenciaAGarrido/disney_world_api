@@ -20,7 +20,7 @@ const router = Router();
 // router.get("/", getAllRequestValidations, getAllCharacters);
 // router.get("/:id(\\d+)/", getByIdRequestValidations, getCharacterByID);
 router.post("/", postRequestValidations, createCharacter);
-// router.put("/:id(\\d+)/", putRequestValidations, updateCharacter);
+router.put("/:id(\\d+)/", putRequestValidations, updateCharacter);
 // router.delete("/:id(\\d+)/", deleteRequestValidations, deleteCharacter);
 
 module.exports = router;
