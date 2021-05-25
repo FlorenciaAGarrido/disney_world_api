@@ -5,6 +5,7 @@ const config = require("../../config/config");
 const logger = require("../logger/logger");
 const userRoutes = require("../../routes/userRoutes");
 const authRoutes = require("../../routes/authRoutes");
+const charactersRoutes = require("../../routes/charactersRoutes");
 const swaggerJSON = require("../swagger/swagger.json");
 
 class Server {
@@ -27,6 +28,7 @@ class Server {
   _routes() {
     this.app.use(`${this.prefix}/users`, userRoutes); //use the routes created in the users' routes file in the /api/v1 route
     this.app.use("/", authRoutes); //use the routes created in the auth route file in the /api/v1 route
+    this.app.use(`${this.prefix}/characters`, charactersRoutes);
   }
 
   //external error
