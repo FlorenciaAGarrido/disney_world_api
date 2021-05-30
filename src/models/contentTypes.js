@@ -1,6 +1,5 @@
 const { DataTypes } = require("sequelize");
-const { sequelize } = require("../loaders/sequelize/sequelize");
-const Movie = require("./movies");
+const sequelize = require("../loaders/sequelize/sequelize");
 
 //content type refers to a movie or a series
 const ContentType = sequelize.define("ContentType", {
@@ -12,6 +11,9 @@ const ContentType = sequelize.define("ContentType", {
 });
 
 module.exports = ContentType;
+
+//!IMPORT HERE
+const Movie = require("./movies");
 
 ContentType.hasMany(Movie, {
   as: "movies",

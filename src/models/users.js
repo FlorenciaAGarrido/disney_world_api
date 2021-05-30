@@ -1,5 +1,5 @@
 const { DataTypes } = require("sequelize");
-const { sequelize } = require("../loaders/sequelize/sequelize");
+const sequelize = require("../loaders/sequelize/sequelize");
 const { USER_ROLE, ADMIN_ROLE } = require("../constants/constants");
 
 const User = sequelize.define("Users", {

@@ -1,6 +1,5 @@
 const { DataTypes } = require("sequelize");
-const { sequelize } = require("../loaders/sequelize/sequelize");
-const Movie = require("./movies");
+const sequelize = require("../loaders/sequelize/sequelize");
 
 const Character = sequelize.define("Character", {
   // Model attributes are defined here
@@ -29,6 +28,9 @@ const Character = sequelize.define("Character", {
 });
 
 module.exports = Character;
+
+//!IMPORT HERE
+const Movie = require("./movies");
 
 //many to many relationship. one character can be in different movies e.g woody appears in toy story, toy story 2, etc
 Character.belongsToMany(Movie, {

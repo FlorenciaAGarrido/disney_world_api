@@ -1,6 +1,5 @@
 const { DataTypes } = require("sequelize");
-const { sequelize } = require("../loaders/sequelize/sequelize");
-const Movie = require("./movies");
+const sequelize = require("../loaders/sequelize/sequelize");
 
 const Genre = sequelize.define("Genre", {
   // Model attributes are defined here
@@ -11,6 +10,9 @@ const Genre = sequelize.define("Genre", {
 });
 
 module.exports = Genre;
+
+//!IMPORT HERE
+const Movie = require("./movies");
 
 //one to many relationship. one genre e.g thriller can have more than one movie
 Genre.hasMany(Movie, { foreignKey: "genreID", sourceKey: "id" });
