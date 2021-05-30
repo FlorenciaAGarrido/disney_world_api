@@ -5,7 +5,8 @@ const Movie = sequelize.define("Movie", {
   // Model attributes are defined here
   image: {
     type: DataTypes.STRING(250),
-    allowNull: false,
+    //true until the img is uploaded to a cloud service
+    allowNull: true,
   },
   title: {
     type: DataTypes.STRING(50),
@@ -13,7 +14,7 @@ const Movie = sequelize.define("Movie", {
     unique: true,
   },
   creationDate: {
-    type: DataTypes.DATE,
+    type: DataTypes.DATEONLY,
     allowNull: false,
   },
   rating: {
