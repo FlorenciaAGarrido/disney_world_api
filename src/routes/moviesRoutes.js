@@ -9,6 +9,8 @@ const {
 const {
   getRequestValidations,
   getAllRequestValidations,
+  postRequestValidations,
+  putRequestValidations,
   deleteRequestValidations,
 } = require("../middlewares/movies/moviesMiddlewares");
 
