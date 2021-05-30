@@ -1,7 +1,7 @@
 //in this layer the business logic takes place
 const MovieRepository = require("../repositories/MovieRepository");
-const GenreRepository = require("../repositories/GenreRepositpory");
-const ContentTypeRepository = require("../repositories/ContentTypeRepository");
+const GenreRepository = require("../repositories/GenreRepository");
+const ContentTypeRepository = require("../repositories/ContentType");
 
 class MovieServices {
   constructor() {
