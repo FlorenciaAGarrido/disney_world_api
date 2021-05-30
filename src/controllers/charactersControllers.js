@@ -107,9 +107,9 @@ const deleteCharacter = async (req, res, next) => {
     //params sent in the request i.e the route /:id
     const { id } = req.params;
     //delete document with the corresponding id sent in the request from the db
-    const user = await characterServices.delete(id);
+    const character = await characterServices.delete(id);
     //parse response
-    res.json(new Success(user));
+    res.json(new Success(character));
   } catch (error) {
     next(error);
   }
