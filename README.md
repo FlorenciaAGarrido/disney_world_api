@@ -24,14 +24,14 @@ npm install
 ## Usage
 
 ```sh
-npm run start
+npm run dev
 ```
 
-## Run tests
+<!-- ## Run tests
 
 ```sh
 npm run test
-```
+``` -->
 
 ## Database Model
 
