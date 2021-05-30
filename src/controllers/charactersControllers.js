@@ -8,45 +8,45 @@ const Success = require("../handlers/SucessHandler");
  * @param {express.Request} req
  * @param {express.Response} res
  * @param {express.NextFunction} next
- * @description get all users with pagination
- * @route GET /api/v1/users //!add queries to url
+ * @description get all characters
+ * @route GET /api/v1/characters
  */
 
-// const getAllUsers = async (req, res, next) => {
-//   try {
-//     //send request to the db with desired pagination queries
-//     const users = await userServices.getAll(
-//       req.query.filter,
-//       req.query.options
-//     );
-//     //parse response
-//     res.json(new Success(users));
-//   } catch (error) {
-//     next(error);
-//   }
-// };
+const getAllCharacters = async (req, res, next) => {
+  try {
+    //send request to the db with desired pagination queries
+    const characters = await characterServices.getAll(
+      req.query.filter,
+      req.query.options
+    );
+    //parse response
+    res.json(new Success(characters));
+  } catch (error) {
+    next(error);
+  }
+};
 
-// /**
-//  *
-//  * @param {express.Request} req
-//  * @param {express.Response} res
-//  * @param {express.NextFunction} next
-//  * @description get user by ID
-//  * @route GET /api/v1/users/:id
-//  */
+/**
+ *
+ * @param {express.Request} req
+ * @param {express.Response} res
+ * @param {express.NextFunction} next
+ * @description get character by ID
+ * @route GET /api/v1/characters/:id
+ */
 
-// const getUserByID = async (req, res, next) => {
-//   try {
-//     //id entered in the url as a param
-//     const id = req.params.id;
-//     //Send req to the db with the user id
-//     const user = await userServices.getByID(id);
-//     //parse res
-//     res.json(new Success(user));
-//   } catch (error) {
-//     next(error);
-//   }
-// };
+const getCharacterByID = async (req, res, next) => {
+  try {
+    //id entered in the url as a param
+    const id = req.params.id;
+    //Send req to the db with the character id
+    const character = await characterServices.getByID(id);
+    //parse res
+    res.json(new Success(character));
+  } catch (error) {
+    next(error);
+  }
+};
 
 /**
  *
@@ -80,7 +80,7 @@ const createCharacter = async (req, res, next) => {
 
 const updateCharacter = async (req, res, next) => {
   try {
-    //params sent in the request i.e the user's id in the route /:id
+    //params sent in the request i.e the character's id in the route /:id
     const { id } = req.params;
     //data coming from the client
     let character = req.body;
@@ -93,32 +93,32 @@ const updateCharacter = async (req, res, next) => {
   }
 };
 
-// /**(
-//  *
-//  * @param {express.Request} req
-//  * @param {express.Response} res
-//  * @param {express.NextFunction} next
-//  * @description delete user by id
-//  * @route DELETE /api/v1/users/:id
-//  */
+/**(
+ *
+ * @param {express.Request} req
+ * @param {express.Response} res
+ * @param {express.NextFunction} next
+ * @description delete character by id
+ * @route DELETE /api/v1/characters/:id
+ */
 
-// const deleteUser = async (req, res, next) => {
-//   try {
-//     //params sent in the request i.e the route /:id
-//     const { id } = req.params;
-//     //delete document with the corresponding id sent in the request from the db
-//     const user = await userServices.delete(id);
-//     //parse response
-//     res.json(new Success(user));
-//   } catch (error) {
-//     next(error);
-//   }
-// };
+const deleteCharacter = async (req, res, next) => {
+  try {
+    //params sent in the request i.e the route /:id
+    const { id } = req.params;
+    //delete document with the corresponding id sent in the request from the db
+    const user = await characterServices.delete(id);
+    //parse response
+    res.json(new Success(user));
+  } catch (error) {
+    next(error);
+  }
+};
 
 module.exports = {
-  //   getAllUsers,
-  //   getUserByID,
+  getAllCharacters,
+  getCharacterByID,
   createCharacter,
   updateCharacter,
-  //   deleteUser,
+  deleteCharacter,
 };
