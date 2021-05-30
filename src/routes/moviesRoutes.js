@@ -6,6 +6,11 @@ const {
   updateMovie,
   deleteMovie,
 } = require("../controllers/moviesControllers");
+const {
+  getRequestValidations,
+  getAllRequestValidations,
+  deleteRequestValidations,
+} = require("../middlewares/movies/moviesMiddlewares");
 
 const router = Router();
 
