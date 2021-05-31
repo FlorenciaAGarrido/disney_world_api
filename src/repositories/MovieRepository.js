@@ -1,16 +1,30 @@
 //the repo layer is the one that communicates with the db i.e the model layer
+const { Op } = require("sequelize"); //operator to filter queries. if its not used, sequelize asumes an equality comparison by default in where clauses
 const Movie = require("../models/movies");
 
 class MovieRepository {
   constructor() {}
 
-  //!TO-DO: FILTER CHARACTERS
+  findAll = async (
+    { title, rating, creationDate }, //filtering query params
+    { limit, offset, order } //query options
+  ) => {
+    let where = {};
+    //condtional clauses in case no queries are passed as params
+    title && (where.title = { [Op.like]: `%%${title}%` }); //like to match similar and lower case params
+    rating && (where.rating = { rating });
+    creationDate && (where.creationDate = { creationDate });
 
-  findAll = async () => await Movie.findAll();
+    //projection to sort movies by creation date and title
+    let projectionAttrs = {
+      where,
+      attrs: ["title", "image", "creationDate"],
+    };
 
-  // async findAllWithPagination(filter, options) {
-  //   return await Movie.paginate(filter, options);
-  // }
+    projectionAttrs && (projectionAttrs.order = [order.split(";")]); //!to add in docs: query params => key: options[order] value: creationDate;ASC || creationDate;DESC. the sames goes for sorting by title
+
+    await Movie.findAll(projectionAttrs);
+  };
 
   findByID = async (id) => await Movie.findByPk(id);
 

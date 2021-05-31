@@ -10,7 +10,8 @@ class MovieServices {
     this.contentTypeRepo = new ContentTypeRepository();
   }
 
-  getAll = async () => await this.movieRepo.findAll();
+  getAll = async (filter, options) =>
+    await this.movieRepo.findAll(filter, options);
 
   getByID = async (id) => await this.movieRepo.findByID(id);
 

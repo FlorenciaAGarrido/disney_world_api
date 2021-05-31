@@ -6,7 +6,7 @@ class CharacterServices {
     this.repo = new CharacterRepository();
   }
 
-  getAll = async () => await this.repo.findAll();
+  getAll = async (filter, options) => await this.repo.findAll(filter, options);
 
   getByID = async (id) => await this.repo.findByID(id);
 

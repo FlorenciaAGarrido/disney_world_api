@@ -14,11 +14,10 @@ const Success = require("../handlers/SucessHandler");
 
 const getAllCharacters = async (req, res, next) => {
   try {
-    //send request to the db with desired pagination queries
-    const characters = await characterServices.getAll(
-      req.query.filter,
-      req.query.options
-    );
+    //regarding destructured params in repository
+    const { filter = "", options = "" } = req.query;
+    //send request to the db with desired  queries
+    const characters = await characterServices.getAll(filter, options);
     //parse response
     res.json(new Success(characters));
   } catch (error) {

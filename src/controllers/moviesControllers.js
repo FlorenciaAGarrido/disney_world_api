@@ -14,11 +14,10 @@ const Success = require("../handlers/SucessHandler");
 
 const getAllMovies = async (req, res, next) => {
   try {
-    //send request to the db with desired pagination queries
-    const movies = await movieServices.getAll(
-      req.query.filter,
-      req.query.options
-    );
+    //regarding destructured params in repository
+    const { filter = "", options = "" } = req.query;
+    //send request to the db with desired queries
+    const movies = await movieServices.getAll(filter, options);
     //parse response
     res.json(new Success(movies));
   } catch (error) {

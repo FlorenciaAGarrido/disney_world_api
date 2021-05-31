@@ -1,16 +1,24 @@
 //the repo layer is the one that communicates with the db i.e the model layer
+const { Op } = require("sequelize");
 const Character = require("../models/characters");
 
 class CharacterRepository {
   constructor() {}
 
-  //!TO-DO: FILTER CHARACTERS
+  findAll = async (
+    { name, age, weight, movieTitle },
+    { limit, offset, order }
+  ) => {
+    let where = {};
+    //condtional clauses in case no queries are passed as params
+    name && (where.name = { [Op.like]: `%%${name}%` }); //like to match similar and lower case params
+    age && (where.age = { age });
+    weight && (where.weight = { weight });
 
-  findAll = async () => await Character.findAll();
+    //!TO DO: movie title. associate character with movie
 
-  // async findAllWithPagination(filter, options) {
-  //   return await Character.paginate(filter, options);
-  // }
+    await Character.findAll({ where });
+  };
 
   findByID = async (id) => await Character.findByPk(id);
 
