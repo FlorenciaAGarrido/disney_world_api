@@ -18,7 +18,7 @@ class MovieRepository {
     //projection to sort movies by creation date and title
     let projectionAttrs = {
       where,
-      attrs: ["title", "image", "creationDate"],
+      attrs: ["title", "image"],
     };
 
     projectionAttrs && (projectionAttrs.order = [order.split(";")]); //!to add in docs: query params => key: options[order] value: creationDate;ASC || creationDate;DESC. the sames goes for sorting by title

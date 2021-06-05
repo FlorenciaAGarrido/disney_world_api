@@ -1,6 +1,8 @@
 const express = require("express");
 const MovieServices = require("../services/MovieServices");
 const movieServices = new MovieServices();
+const ImageServices = require("../services/ImageServices");
+const imgServices = new ImageServices();
 const Success = require("../handlers/SucessHandler");
 
 /**
@@ -73,6 +75,28 @@ const createMovie = async (req, res, next) => {
  * @param {express.Request} req
  * @param {express.Response} res
  * @param {express.NextFunction} next
+ * @description upload the image of a movie
+ * @route POST /api/v1/image
+ */
+
+const saveMovieImage = async (req, res, next) => {
+  try {
+    //get the id of the posted movie
+    const movieID = req.body.id;
+    //get the image of the posted movie
+    const img = req.file;
+    //parse response
+    res.json(new Success(await imgServices.createMovieImage(movieID, img)));
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ *
+ * @param {express.Request} req
+ * @param {express.Response} res
+ * @param {express.NextFunction} next
  * @description edit movie by ID
  * @route PUT /api/v1/movies/:id
  */
@@ -118,6 +142,7 @@ module.exports = {
   getAllMovies,
   getMovieByID,
   createMovie,
+  saveMovieImage,
   updateMovie,
   deleteMovie,
 };

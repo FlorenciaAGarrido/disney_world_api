@@ -17,7 +17,7 @@ class CharacterRepository {
 
     //!TO DO: movie title. associate character with movie
 
-    await Character.findAll({ where });
+    return await Character.findAll({ where, attributes: ["name", "image"] });
   };
 
   findByID = async (id) => await Character.findByPk(id);
