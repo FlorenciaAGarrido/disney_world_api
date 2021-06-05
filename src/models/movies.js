@@ -5,7 +5,7 @@ const Movie = sequelize.define("Movie", {
   // Model attributes are defined here
   image: {
     type: DataTypes.STRING(250),
-    allowNull: true,
+    allowNull: false,
   },
   title: {
     type: DataTypes.STRING(50),
@@ -32,7 +32,7 @@ const Genre = require("./genres");
 //many to many relationship. one movie can have many characters e.g toy story has woody, buzz, etc., as characters
 Movie.belongsToMany(Character, {
   through: "characterMovies",
-  as: "character",
+  as: "characters",
   foreignKey: "movieID",
 });
 
@@ -41,9 +41,11 @@ Movie.belongsToMany(Character, {
 Movie.belongsTo(ContentType, {
   foreignKey: "contentTypeID",
   targetKey: "id",
+  as: "contentType",
 });
 
 Movie.belongsTo(Genre, {
   foreignKey: "genreID",
   targetKey: "id",
+  as: "genre",
 });

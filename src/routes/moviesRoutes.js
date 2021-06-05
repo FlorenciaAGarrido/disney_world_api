@@ -2,6 +2,7 @@ const { Router } = require("express");
 const {
   getAllMovies,
   getMovieByID,
+  associateCharacter,
   createMovie,
   saveMovieImage,
   updateMovie,
@@ -13,16 +14,23 @@ const {
   postRequestValidations,
   postImageRequestValidations,
   putRequestValidations,
+  associationRequestValidation,
   deleteRequestValidations,
 } = require("../middlewares/movies/moviesMiddlewares");
 
 const router = Router();
 
 router.get("/", getAllRequestValidations, getAllMovies);
-router.get("/:id", getRequestValidations, getMovieByID);
+router.get("/:id(\\d+)/", getRequestValidations, getMovieByID);
 router.post("/", postRequestValidations, createMovie);
 router.post("/image", postImageRequestValidations, saveMovieImage);
-router.put("/:id", putRequestValidations, updateMovie);
-router.delete("/:id", deleteRequestValidations, deleteMovie);
+router.put("/:id(\\d+)/", putRequestValidations, updateMovie);
+//associations between movies and characters
+router.put(
+  "/:movieID(\\d+)/characters/:characterID(\\d+)/",
+  associationRequestValidation,
+  associateCharacter
+);
+router.delete("/:id(\\d+)/", deleteRequestValidations, deleteMovie);
 
 module.exports = router;

@@ -11,10 +11,13 @@ const {
 const { validJWT, hasRole } = require("../auth/authMiddlewares");
 const CharacterServices = require("../../services/CharacterServices");
 const characterServices = new CharacterServices();
+const MovieServices = require("../../services/MovieServices");
+const movieServices = new MovieServices();
 
 //check if the name and the history were passed through the body
 //check if the user's id was entered as a param in the endpoint
-const _idRequired = check("id", "ID is required").not().isEmpty();
+const _idRequired = (attr) =>
+  check(attr, `${attr} is required`).not().isEmpty();
 const _nameRequired = check("name", "Name is required").not().isEmpty();
 const _historyRequired = check("history", "History is required")
   .not()
@@ -42,9 +45,38 @@ const _nameExists = check("name").custom(async (name = "") => {
 });
 
 //check if the id, the age and the weight are numbers
-const _isIDNumeric = check("id").isNumeric();
+const _isIDNumeric = (attr) => check(attr).isNumeric();
 const _isAgeANumber = check("age").optional().isNumeric();
 const _isWeightANumber = check("weight").optional().isNumeric();
+
+const _characterIDExists = check("characterID").custom(
+  /**
+   * @param {express.Request} req
+   */
+  async (characterID = "", { req }) => {
+    const foundCharacter = await characterServices.getByID(characterID);
+    !foundCharacter &&
+      new AppError(
+        `The character with the ID ${characterID} does not exist`,
+        400
+      );
+    //add the fetched character to the request object that will then be handled in the corresponding controller function
+    req.character = foundCharacter;
+  }
+);
+
+const _movieIDExists = check("movieID").custom(
+  /**
+   * @param {express.Request} req
+   */
+  async (movieID = "", { req }) => {
+    const foundMovie = await movieServices.getByID(movieID);
+    !foundMovie &&
+      new AppError(`The movie with the ID ${movieID} does not exist`, 400);
+    //add the fetched movie to the request object that will then be handled in the corresponding controller function
+    req.movie = foundMovie;
+  }
+);
 
 //validations for the /users GET endpoint
 const getAllRequestValidations = [validJWT, commonValidationResult];
@@ -52,7 +84,8 @@ const getAllRequestValidations = [validJWT, commonValidationResult];
 //validations for the /users/:id GET endpoint
 const getByIdRequestValidations = [
   validJWT,
-  _idRequired,
+  _idRequired("id"),
+  _isIDNumeric("id"),
   _idExists,
   commonValidationResult,
 ];
@@ -75,8 +108,8 @@ const postImageRequestValidations = [
   validJWT,
   hasRole(USER_ROLE, ADMIN_ROLE),
   upload.single("image"),
-  _idRequired,
-  _isIDNumeric,
+  _idRequired("id"),
+  _isIDNumeric("id"),
   _idExists,
   imageRequired,
   commonValidationResult,
@@ -86,12 +119,26 @@ const postImageRequestValidations = [
 const putRequestValidations = [
   validJWT,
   hasRole(ADMIN_ROLE),
-  _idRequired,
+  _idRequired("id"),
+  _isIDNumeric("id"),
   _idExists,
   _nameExists,
   _isAgeANumber,
   _isWeightANumber,
   _isRoleValid,
+  commonValidationResult,
+];
+
+//validations for the /characters/:characterID/movies/:movieID
+const associationRequestValidation = [
+  validJWT,
+  hasRole(ADMIN_ROLE),
+  _idRequired("characterID"),
+  _idRequired("movieID"),
+  _isIDNumeric("characterID"),
+  _isIDNumeric("movieID"),
+  _characterIDExists,
+  _movieIDExists,
   commonValidationResult,
 ];
 
@@ -107,6 +154,7 @@ const deleteRequestValidations = [
 module.exports = {
   getAllRequestValidations,
   getByIdRequestValidations,
+  associationRequestValidation,
   postRequestValidations,
   postImageRequestValidations,
   putRequestValidations,

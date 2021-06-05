@@ -1,6 +1,8 @@
 //the repo layer is the one that communicates with the db i.e the model layer
 const { Op } = require("sequelize"); //operator to filter queries. if its not used, sequelize asumes an equality comparison by default in where clauses
 const Movie = require("../models/movies");
+const Genre = require("../models/genres");
+const Character = require("../models/characters");
 
 class MovieRepository {
   constructor() {}
@@ -28,9 +30,16 @@ class MovieRepository {
 
   findByID = async (id) => await Movie.findByPk(id);
 
+  findByIDWithCharacters = async (id) =>
+    await Movie.findByPk(id, {
+      include: ["characters", "genre", "contentType"],
+      //projection attributes
+      attributes: ["id", "title", "image", "creationDate", "rating"],
+    });
+
   findByTitle = async (title) => await Movie.findOne({ where: { title } });
 
-  save = async (movie) => await Movie.create(movie);
+  save = async (movie) => await Movie.create(movie, { include: [Genre] });
 
   update = async (id, movie) =>
     //change every movie in the db whose id matches the id passed as a param to the movie passed as a param

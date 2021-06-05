@@ -11,9 +11,11 @@ class CharacterServices {
   getAll = async (filter, options) =>
     await this.charRepo.findAll(filter, options);
 
-  getByID = async (id) => await this.charRepo.findByID(id);
+  getByID = async (id) => await this.charRepo.findByIDWithMovies(id);
 
   getByName = async (name) => await this.charRepo.findByName(name);
+
+  associate = async (character, movie) => await character.addMovie(movie);
 
   create = async (character) => await this.charRepo.save(character);
 

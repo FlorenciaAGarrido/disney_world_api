@@ -1,6 +1,7 @@
 //the repo layer is the one that communicates with the db i.e the model layer
 const { Op } = require("sequelize");
 const Character = require("../models/characters");
+const Movie = require("../models/movies");
 
 class CharacterRepository {
   constructor() {}
@@ -21,6 +22,16 @@ class CharacterRepository {
   };
 
   findByID = async (id) => await Character.findByPk(id);
+
+  findByIDWithMovies = async (id) =>
+    await Character.findByPk(id, {
+      include: [
+        {
+          model: Movie,
+          as: "movies",
+        },
+      ],
+    });
 
   findByName = async (name) => await Character.findOne({ where: { name } });
 
