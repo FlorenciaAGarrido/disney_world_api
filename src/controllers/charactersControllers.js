@@ -1,6 +1,8 @@
 const express = require("express");
 const CharacterServices = require("../services/CharacterServices");
 const characterServices = new CharacterServices();
+const ImageServices = require("../services/ImageServices");
+const imgServices = new ImageServices();
 const Success = require("../handlers/SucessHandler");
 
 /**
@@ -14,11 +16,10 @@ const Success = require("../handlers/SucessHandler");
 
 const getAllCharacters = async (req, res, next) => {
   try {
-    //send request to the db with desired pagination queries
-    const characters = await characterServices.getAll(
-      req.query.filter,
-      req.query.options
-    );
+    //regarding destructured params in repository
+    const { filter = "", options = "" } = req.query;
+    //send request to the db with desired  queries
+    const characters = await characterServices.getAll(filter, options);
     //parse response
     res.json(new Success(characters));
   } catch (error) {
@@ -74,6 +75,28 @@ const createCharacter = async (req, res, next) => {
  * @param {express.Request} req
  * @param {express.Response} res
  * @param {express.NextFunction} next
+ * @description upload the image of a character
+ * @route POST /api/v1/image
+ */
+
+const saveCharacterImage = async (req, res, next) => {
+  try {
+    //get the id of the posted character
+    const charID = req.body.id;
+    //get the image of the posted character
+    const img = req.file;
+    //parse response
+    res.json(new Success(await imgServices.createCharacterImage(charID, img)));
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ *
+ * @param {express.Request} req
+ * @param {express.Response} res
+ * @param {express.NextFunction} next
  * @description edit character by ID
  * @route PUT /api/v1/characters/:id
  */
@@ -119,6 +142,7 @@ module.exports = {
   getAllCharacters,
   getCharacterByID,
   createCharacter,
+  saveCharacterImage,
   updateCharacter,
   deleteCharacter,
 };

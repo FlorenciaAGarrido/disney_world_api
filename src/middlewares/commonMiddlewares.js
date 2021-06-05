@@ -1,5 +1,5 @@
 //validation middleware for both the users and the authentication
-const { validationResult } = require("express-validator");
+const { validationResult, checkSchema } = require("express-validator");
 const express = require("express");
 const AppError = require("../handlers/AppError");
 
@@ -18,7 +18,16 @@ const commonValidationResult = (req, res, next) => {
   next();
 };
 
-module.exports = { commonValidationResult };
+const imageRequired = checkSchema({
+  image: {
+    custom: {
+      options: (value, { req }) => !!req.file,
+      errorMessage: "You should upload a file",
+    },
+  },
+});
+
+module.exports = { commonValidationResult, imageRequired };
 
 //!ERRORS MODEL
 // {

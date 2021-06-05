@@ -20,4 +20,9 @@ module.exports = {
     secret: process.env.AUTH_SECRET, //secret key
     ttl: process.env.AUTH_TTL, //time to leave i.e how much time before the session expires
   },
+  aws: {
+    accessKeyID: process.env.AWS_ACCESS_KEY_ID,
+    privateAccessKey: process.env.AWS_PRIVATE_ACCESS_KEY,
+    s3BucketName: process.env.AWS_S3_BUCKET_NAME,
+  },
 };

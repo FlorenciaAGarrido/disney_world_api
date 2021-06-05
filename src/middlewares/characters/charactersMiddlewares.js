@@ -1,8 +1,13 @@
 //File to validate the users' data i.e the attrs set in the user model, in every endpoint
 const { check } = require("express-validator");
+const multer = require("multer");
+const upload = multer();
 const AppError = require("../../handlers/AppError");
 const { USER_ROLE, ADMIN_ROLE } = require("../../constants/constants");
-const { commonValidationResult } = require("../commonMiddlewares");
+const {
+  commonValidationResult,
+  imageRequired,
+} = require("../commonMiddlewares");
 const { validJWT, hasRole } = require("../auth/authMiddlewares");
 const CharacterServices = require("../../services/CharacterServices");
 const characterServices = new CharacterServices();
@@ -36,7 +41,8 @@ const _nameExists = check("name").custom(async (name = "") => {
     new AppError(`A character with the name ${name} already exists`, 400);
 });
 
-//check if the age and the weight are numbers
+//check if the id, the age and the weight are numbers
+const _isIDNumeric = check("id").isNumeric();
 const _isAgeANumber = check("age").optional().isNumeric();
 const _isWeightANumber = check("weight").optional().isNumeric();
 
@@ -61,6 +67,18 @@ const postRequestValidations = [
   _historyRequired,
   _isWeightANumber,
   _isRoleValid,
+  commonValidationResult,
+];
+
+//validations for the /image POST endpoint
+const postImageRequestValidations = [
+  validJWT,
+  hasRole(USER_ROLE, ADMIN_ROLE),
+  upload.single("image"),
+  _idRequired,
+  _isIDNumeric,
+  _idExists,
+  imageRequired,
   commonValidationResult,
 ];
 
@@ -90,6 +108,7 @@ module.exports = {
   getAllRequestValidations,
   getByIdRequestValidations,
   postRequestValidations,
+  postImageRequestValidations,
   putRequestValidations,
   deleteRequestValidations,
 };

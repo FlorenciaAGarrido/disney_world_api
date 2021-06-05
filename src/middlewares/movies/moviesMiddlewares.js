@@ -1,7 +1,12 @@
 const { check } = require("express-validator");
+const multer = require("multer");
+const upload = multer();
 const AppError = require("../../handlers/AppError");
 const { USER_ROLE, ADMIN_ROLE } = require("../../constants/constants");
-const { commonValidationResult } = require("../commonMiddlewares");
+const {
+  commonValidationResult,
+  imageRequired,
+} = require("../commonMiddlewares");
 const { validJWT, hasRole } = require("../auth/authMiddlewares");
 const MovieServices = require("../../services/MovieServices");
 const movieServices = new MovieServices();
@@ -53,7 +58,7 @@ const _isContentTypeValid = async (contentType = "") => {
     new AppError(`The content type ${contentType} does not exist`, 400);
 };
 const _isGenreValid = async (genre = "") => {
-  const foundgenre = await contentTypeServices.getByDescription(genre);
+  const foundgenre = await genreServices.getByDescription(genre);
   !foundgenre && new AppError(`The genre ${genre} does not exist`, 400);
 };
 
@@ -89,6 +94,17 @@ const postRequestValidations = [
   commonValidationResult,
 ];
 
+const postImageRequestValidations = [
+  validJWT,
+  hasRole(USER_ROLE, ADMIN_ROLE),
+  upload.single("image"),
+  _idRequired,
+  _isIDNumeric,
+  _idExists,
+  imageRequired,
+  commonValidationResult,
+];
+
 const putRequestValidations = [
   validJWT,
   hasRole(ADMIN_ROLE),
@@ -117,6 +133,7 @@ module.exports = {
   getAllRequestValidations,
   getRequestValidations,
   postRequestValidations,
+  postImageRequestValidations,
   putRequestValidations,
   deleteRequestValidations,
 };
