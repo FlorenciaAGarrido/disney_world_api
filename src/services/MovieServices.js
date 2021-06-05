@@ -13,9 +13,11 @@ class MovieServices {
   getAll = async (filter, options) =>
     await this.movieRepo.findAll(filter, options);
 
-  getByID = async (id) => await this.movieRepo.findByID(id);
+  getByID = async (id) => await this.movieRepo.findByIDWithCharacters(id);
 
   getByTitle = async (title) => await this.movieRepo.findByTitle(title);
+
+  associate = async (movie, character) => await movie.addCharacter(character);
 
   create = async (movie) => {
     const genre = await this.genreRepo.findByDescription(movie.genre);

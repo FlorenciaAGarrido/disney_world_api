@@ -54,6 +54,29 @@ const getMovieByID = async (req, res, next) => {
  * @param {express.Request} req
  * @param {express.Response} res
  * @param {express.NextFunction} next
+ * @description get the characters of a movie
+ * @route GET /api/v1/movies/:movieID/characters/:characterID
+ */
+
+const associateCharacter = async (req, res, next) => {
+  try {
+    //get the character and the movie coming from the client
+    const character = req.character;
+    const movie = req.movie;
+    //associate the previoulsy mentioned char and movie
+    const association = await movieServices.associate(movie, character);
+    //parse response
+    res.json(new Success(association));
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ *
+ * @param {express.Request} req
+ * @param {express.Response} res
+ * @param {express.NextFunction} next
  * @description post movie
  * @route POST /api/v1/movie
  */
@@ -76,7 +99,7 @@ const createMovie = async (req, res, next) => {
  * @param {express.Response} res
  * @param {express.NextFunction} next
  * @description upload the image of a movie
- * @route POST /api/v1/image
+ * @route POST /api/v1/movies/image
  */
 
 const saveMovieImage = async (req, res, next) => {
@@ -141,6 +164,7 @@ const deleteMovie = async (req, res, next) => {
 module.exports = {
   getAllMovies,
   getMovieByID,
+  associateCharacter,
   createMovie,
   saveMovieImage,
   updateMovie,

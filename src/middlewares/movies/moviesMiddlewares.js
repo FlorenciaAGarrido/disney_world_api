@@ -14,6 +14,8 @@ const GenreServices = require("../../services/GenreServices");
 const genreServices = new GenreServices();
 const ContentTypeServices = require("../../services/ContentTypeServices");
 const contentTypeServices = new ContentTypeServices();
+const CharacterServices = require("../../services/CharacterServices");
+const characterServices = new CharacterServices();
 
 const _titleRequired = check("title", "Title required").not().isEmpty();
 
@@ -24,8 +26,8 @@ const _isRoleValid = check("role")
     !ROLES.includes(role) && new AppError("Invalid role", 400);
   });
 
-const _idRequired = check("id").not().isEmpty();
-const _isIDNumeric = check("id").isNumeric();
+const _idRequired = (attr) => check(attr).not().isEmpty();
+const _isIDNumeric = (attr) => check(attr).isNumeric();
 const _idExists = check("id").custom(async (id = "") => {
   const foundMovie = await movieServices.getByID(id);
   if (!foundMovie) {
@@ -69,12 +71,41 @@ const _optionalContentTypeExists = check("contentType")
   .custom(_isContentTypeValid);
 const _optionalGenreExists = check("genre").optional().custom(_isGenreValid);
 
+const _characterIDExists = check("characterID").custom(
+  /**
+   * @param {express.Request} req
+   */
+  async (characterID = "", { req }) => {
+    const foundCharacter = await characterServices.getByID(characterID);
+    !foundCharacter &&
+      new AppError(
+        `The character with the ID ${characterID} does not exist`,
+        400
+      );
+    //add the fetched character to the request object that will then be handled in the corresponding controller function
+    req.character = foundCharacter;
+  }
+);
+
+const _movieIDExists = check("movieID").custom(
+  /**
+   * @param {express.Request} req
+   */
+  async (movieID = "", { req }) => {
+    const foundMovie = await movieServices.getByID(movieID);
+    !foundMovie &&
+      new AppError(`The movie with the ID ${movieID} does not exist`, 400);
+    //add the fetched movie to the request object that will then be handled in the corresponding controller function
+    req.movie = foundMovie;
+  }
+);
+
 const getAllRequestValidations = [validJWT];
 
 const getRequestValidations = [
   validJWT,
-  _idRequired,
-  _isIDNumeric,
+  _idRequired("id"),
+  _isIDNumeric("id"),
   _idExists,
   commonValidationResult,
 ];
@@ -98,8 +129,8 @@ const postImageRequestValidations = [
   validJWT,
   hasRole(USER_ROLE, ADMIN_ROLE),
   upload.single("image"),
-  _idRequired,
-  _isIDNumeric,
+  _idRequired("id"),
+  _isIDNumeric("id"),
   _idExists,
   imageRequired,
   commonValidationResult,
@@ -108,8 +139,8 @@ const postImageRequestValidations = [
 const putRequestValidations = [
   validJWT,
   hasRole(ADMIN_ROLE),
-  _idRequired,
-  _isIDNumeric,
+  _idRequired("id"),
+  _isIDNumeric("id"),
   _idExists,
   _titleExists,
   _isRatingOptional,
@@ -120,11 +151,23 @@ const putRequestValidations = [
   commonValidationResult,
 ];
 
+const associationRequestValidation = [
+  validJWT,
+  hasRole(ADMIN_ROLE),
+  _idRequired("characterID"),
+  _idRequired("movieID"),
+  _isIDNumeric("characterID"),
+  _isIDNumeric("movieID"),
+  _characterIDExists,
+  _movieIDExists,
+  commonValidationResult,
+];
+
 const deleteRequestValidations = [
   validJWT,
   hasRole(ADMIN_ROLE),
-  _idRequired,
-  _isIDNumeric,
+  _idRequired("id"),
+  _isIDNumeric("id"),
   _idExists,
   commonValidationResult,
 ];
@@ -135,5 +178,6 @@ module.exports = {
   postRequestValidations,
   postImageRequestValidations,
   putRequestValidations,
+  associationRequestValidation,
   deleteRequestValidations,
 };

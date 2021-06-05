@@ -54,6 +54,29 @@ const getCharacterByID = async (req, res, next) => {
  * @param {express.Request} req
  * @param {express.Response} res
  * @param {express.NextFunction} next
+ * @description get the character and the movies they are part of
+ * @route GET /api/v1/characters/:characterID/movies/:movieID
+ */
+
+const associateCharacter = async (req, res, next) => {
+  try {
+    //get the character and the movie coming from the client
+    const character = req.character;
+    const movie = req.movie;
+    //associate the previoulsy mentioned char and movie
+    const association = await characterServices.associate(character, movie);
+    //parse response
+    res.json(new Success(association));
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ *
+ * @param {express.Request} req
+ * @param {express.Response} res
+ * @param {express.NextFunction} next
  * @description post characters
  * @route POST /api/v1/characters
  */
@@ -141,6 +164,7 @@ const deleteCharacter = async (req, res, next) => {
 module.exports = {
   getAllCharacters,
   getCharacterByID,
+  associateCharacter,
   createCharacter,
   saveCharacterImage,
   updateCharacter,

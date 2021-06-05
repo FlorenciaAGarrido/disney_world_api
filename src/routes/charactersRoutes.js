@@ -2,6 +2,7 @@ const { Router } = require("express");
 const {
   getAllCharacters,
   getCharacterByID,
+  associateCharacter,
   createCharacter,
   saveCharacterImage,
   updateCharacter,
@@ -10,6 +11,7 @@ const {
 const {
   getAllRequestValidations,
   getByIdRequestValidations,
+  associationRequestValidation,
   postRequestValidations,
   postImageRequestValidations,
   putRequestValidations,
@@ -24,6 +26,11 @@ router.get("/:id(\\d+)/", getByIdRequestValidations, getCharacterByID);
 router.post("/", postRequestValidations, createCharacter);
 router.post("/image", postImageRequestValidations, saveCharacterImage);
 router.put("/:id(\\d+)/", putRequestValidations, updateCharacter);
+router.put(
+  "/:characterID(\\d+)/movies/:movieID(\\d+)/",
+  associationRequestValidation,
+  associateCharacter
+);
 router.delete("/:id(\\d+)/", deleteRequestValidations, deleteCharacter);
 
 module.exports = router;
