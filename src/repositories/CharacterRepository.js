@@ -16,8 +16,6 @@ class CharacterRepository {
     age && (where.age = { age });
     weight && (where.weight = { weight });
 
-    //!TO DO: movie title. associate character with movie
-
     return await Character.findAll({ where, attributes: ["name", "image"] });
   };
 
